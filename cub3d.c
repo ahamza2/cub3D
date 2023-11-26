@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 10:56:43 by haarab            #+#    #+#             */
-/*   Updated: 2023/11/06 18:46:17 by haarab           ###   ########.fr       */
+/*   Updated: 2023/11/26 19:42:12 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 void write_error(){
-	write (1, "ERROR MAPS", 10);
+	write (1, "ERROR MAPS\n", 11);
 	exit (1);
 }
 
@@ -56,6 +56,7 @@ char **ft_map(t_vars *vars, char *av)
 	while (1)
 	{
 		vars->move[i] = get_next_line(fd);
+		// vars->move[i] = ft_strtrim(vars->move[i] , " \t");
 		if (vars->move[i] == NULL && i == 0)
 			write_error();
 		if (vars->move[i] == NULL)
@@ -80,14 +81,25 @@ int check_format_av(char *str)
 int	main(int ac, char **av)
 {
 	t_vars	vars;
-	char	**maps;
+	char	**str;
 	
 	if (ac != 2)
 		return (0);
 	if (check_format_av(av[1]) == 0)
 		write_error();
-	maps = ft_map(&vars, av[1]);
-	// check_map_is_correct(maps);
-	check_type_of_map(&vars, maps);
-	// printf ("hamza\n");
+	str = ft_map(&vars, av[1]);
+	check_tab_in_maps(str, &vars);
+	check_type_of_map(&vars, str);
+	check_type_file_is_correct(&vars, str);
+	save_map(&vars, str);
+	check_path_is_correct(&vars, str);
+	// long_string(&vars, str);
+	// int i = 0;
+	// while (vars.maps[i])
+	// {
+	// 	printf ("%s", vars.maps[i]);
+	// 	i++;
+	// }
+	// while (1);
+
 }

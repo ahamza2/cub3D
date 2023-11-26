@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 12:06:12 by haarab            #+#    #+#             */
-/*   Updated: 2023/11/06 20:08:00 by haarab           ###   ########.fr       */
+/*   Updated: 2023/11/09 14:40:28 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,21 @@ int	check_is_digit(char *str)
 		i++;
 	}
 	return (1);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s2[i] != '\0')
+	{
+		if (s1[i] == s2[i])
+			i++;
+		else
+		{
+			return (s1[i] - s2[i]);
+		}
+	}
+	return (0);
 }
