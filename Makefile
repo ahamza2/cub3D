@@ -6,7 +6,7 @@
 #    By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/06 11:26:28 by haarab            #+#    #+#              #
-#    Updated: 2023/11/25 22:05:42 by haarab           ###   ########.fr        #
+#    Updated: 2023/11/27 17:49:06 by haarab           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 MINI = -lmlx -lmlx -framework OpenGL -framework AppKit
 
-SRCS = cub3d.c maps.c libft.c ft_split.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c ft_strtrim.c
+SRCS = cub3d.c maps.c libft.c ft_split.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c ft_strtrim.c maps2.c
 
 OBJS = $(SRCS:.c=.o)
 

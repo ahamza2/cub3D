@@ -6,10 +6,9 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 22:01:25 by haarab            #+#    #+#             */
-/*   Updated: 2023/11/25 22:01:34 by haarab           ###   ########.fr       */
+/*   Updated: 2023/11/27 17:50:46 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cub3d.h"
 
@@ -38,10 +37,13 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (0);
 	first = 0;
 	last = ft_strlen(s1);
+	// printf ("hamza ==== %zu\n", last);
 	while (s1[first] && is_set(s1[first], set))
 		first++;
 	while (last > first && is_set(s1[last - 1], set))
+	{
 		last--;
+	}
 	trimmed = malloc(sizeof(char) * (last - first + 1));
 	if (trimmed == NULL)
 		return (NULL);

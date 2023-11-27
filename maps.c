@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:53:57 by haarab            #+#    #+#             */
-/*   Updated: 2023/11/26 21:17:30 by haarab           ###   ########.fr       */
+/*   Updated: 2023/11/27 21:30:06 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void check_persone(char **str , t_vars *vars, int first)
 		while (str[first][i] != '\n' && str[first][i])
 		{
 			if (str[first][i] == 'N')
+			{
+				printf ("%d == %d\n", first , i);
 				j++;
+			}
 			i++;
 		}
 		first++;
@@ -42,7 +45,6 @@ void check_persone(char **str , t_vars *vars, int first)
 	}
 	if (j > 1)
 	{
-		printf ("%d\n", j);
 		printf ("More N\n");
 		exit (1);
 	}
@@ -52,10 +54,11 @@ void check_persone(char **str , t_vars *vars, int first)
 void check_path(char **str ,t_vars *vars,int first)
 {
 	int i;
+
 	while (first < vars->lines_map)
 	{
 		i = 0;
-		printf ("%s", str[first]);
+		// printf ("%s", str[first]);
 		// printf ("hamza\n");
 		while (str[first][i] != '\n' && str[first][i])
 		{
@@ -65,28 +68,40 @@ void check_path(char **str ,t_vars *vars,int first)
 				printf ("problime in the map caracter\n");
 				exit (1);
 			}	
-			if (str[first][i] == '0')
-			{
+			if (str[first][i] == '0' || str[first][i] == 'N')
+			{	
+				if (i == 0) {
+					printf ("NOT\n");
+					exit (1);
+				}
 				// printf ("%d, %d, %c\n", first, i, str[first][i]);
 				// printf ("%c", str[first][i]);
-				if (str[first - 1][i] != '1' && str[first - 1][i] != 'N' && str[first - 1][i] != '0')
+				if (first  - 1  >= 0 && ft_strlen(str[first - 1]) < (size_t)i)
 				{
 					printf ("NOT\n");
 					exit (1);
 				}
-				if (str[first][i + 1] != '1' && str[first][i + 1] != 'N' && str[first][i + 1] != '0')
+				if (first  - 1  >= 0 && str[first - 1][i] != '1' && str[first - 1][i] != 'N' && str[first - 1][i] != '0')
+				{
+					printf ("NOT\n");
+					exit (1);
+				}
+				if (str[first][i + 1]  && str[first][i + 1] != '1' && str[first][i + 1] != 'N' && str[first][i + 1] != '0')
 				{
 					printf ("MAP \n");
 					exit (1);
 				}
-				if (str[first][i - 1] != '1' && str[first][i - 1] != 'N' && str[first][i - 1] != '0')
+				if (i - 1 >= 0  && str[first][i - 1] != '1' && str[first][i - 1] != 'N' && str[first][i - 1] != '0')
 				{
 					printf ("SI\n");
 					exit (1);
 				}
-				if (str[first + 1][i] != '1' && str[first + 1][i] != 'N' && str[first + 1][i] != '0')
+				if (str[first + 1] && str[first + 1][i] != '1' && str[first + 1][i] != 'N' && str[first + 1][i] != '0')
 				{
-					printf ("CORRECT\n");
+					printf ("ERR\n");
+					exit (1);
+				}else if (!str[first + 1]) {
+					printf ("NOT\n");
 					exit (1);
 				}
 			}
@@ -108,6 +123,7 @@ void save_map(t_vars *vars, char **str)
 	int j = 0;
 	line_of_map(vars, str);
 	int first = vars->last;
+	printf ("first ==== %d\n", first);
 	check_map_is_correct(str, vars, first);
 	while (first < vars->lines_map)
 	{
@@ -132,59 +148,85 @@ void save_map(t_vars *vars, char **str)
 
 void check_type_of_map(t_vars *vars, char **str)
 {
+	vars->NO = NULL;
+	vars->SO = NULL;
+	vars->WE = NULL;
+	vars->EA = NULL;
+	vars->F = NULL;
+	vars->C = NULL;
+	char *ptr = NULL;
 	int i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i][0] != '\n')
-			str[i] = ft_strtrim(str[i], " ");
-		if (ft_strncmp (str[i], "NO", 2) == 0)
-			vars->NO = ft_strtrim((str[i]), " ");
-		if (ft_strncmp (str[i], "SO", 2) == 0)
-			vars->SO = ft_strtrim((str[i]), " ");
-		if (ft_strncmp (str[i], "WE", 2) == 0)
-			vars->WE = ft_strtrim((str[i]), " ");
-		if (ft_strncmp (str[i], "EA", 2) == 0)
-			vars->EA = ft_strtrim((str[i]), " ");
-		if (ft_strncmp (str[i], "F", 1) == 0)
-			vars->F = ft_strtrim((str[i]), " ");
-		if (ft_strncmp (str[i], "C", 1) == 0)
-			vars->C = ft_strtrim((str[i]), " ");
+		ptr = ft_strtrim(str[i], " ");
+		// printf ("ptr === %s\n", ptr);
+		if (ft_strncmp (ptr, "NO", 2) == 0)
+			vars->NO = ft_strdup (ptr);
+		if (ft_strncmp (ptr, "SO", 2) == 0)
+			vars->SO = ft_strdup (ptr);
+		if (ft_strncmp (ptr, "WE", 2) == 0)
+		{
+			// printf ("%s", ft_strtrim((ptr), " "));
+			vars->WE = ft_strdup (ptr);
+		}
+		if (ft_strncmp (ptr, "EA", 2) == 0)
+			vars->EA = ft_strdup (ptr);
+		if (ft_strncmp (ptr, "F", 1) == 0)
+			vars->F = ft_strdup (ptr);
+		if (ft_strncmp (ptr, "C", 1) == 0)
+			vars->C = ft_strdup (ptr);
 		if (vars->NO != NULL && vars->SO != NULL && vars->WE != NULL
 			&& vars->EA != NULL && vars->F != NULL && vars->C != NULL)
 		{
+			free (ptr);
 			vars->last = i + 1;
+			printf ("last ==== %d\n", vars->last);
 			return ;
 		}
+		free (ptr);
 		i++;
 	}
 }
 
-void check_type_file_is_correct(t_vars *vars,  char **str)
+void check_type_file_is_correct(t_vars *vars, __unused char **str)
 {
 	if (vars->NO == NULL || vars->SO == NULL || vars->WE == NULL
 		|| vars->EA == NULL || vars->F == NULL || vars->C == NULL)
 	{
 		write_error();
 	}
-	int i = 0;
-	while (i < vars->last)
-	{
-		if (ft_strcmp(str[i] , "NO") != 0 && ft_strcmp(str[i], "SO") != 0
-			&& ft_strcmp(str[i], "WE") != 0 && ft_strcmp(str[i], "EA") != 0
-				&& ft_strcmp(str[i], "F") != 0 && ft_strcmp(str[i], "C") != 0
-					&& ft_strcmp(str[i], "\n") != 0)
-		{
-			printf ("ERROR PATH of file === %d\n", i);
-			write_error();
-		}
-		i++;
-	}
+	// int i = 0;
+	// while (i < vars->last)
+	// {
+	// 	if (ft_strcmp(str[i] , "NO") != 0 && ft_strcmp(str[i], "SO") != 0
+	// 		&& ft_strcmp(str[i], "WE") != 0 && ft_strcmp(str[i], "EA") != 0
+	// 			&& ft_strcmp(str[i], "F") != 0 && ft_strcmp(str[i], "C") != 0
+	// 				&& ft_strcmp(str[i], "\n") != 0)
+	// 	{
+	// 		printf ("ERROR PATH of file === %d\n", i);
+	// 		write_error();
+	// 	}
+	// 	i++;
+	// }
 };
 
+int	count_str(char **str)
+{
+	int	i;
+	
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
+}
 
-void check_path_is_correct(t_vars *vars, char **str)
+
+
+void check_path_is_correct(t_vars *vars, __unused char **str)
 {
 	int i;
 	vars->path_NO = NULL;
@@ -194,19 +236,12 @@ void check_path_is_correct(t_vars *vars, char **str)
 	// printf ("hamza === %s\n", ft_strdup(ptr[0]));
 	vars->path_F = NULL;
 	vars->path_C = NULL;
-	char **ptr = NULL;
+	char **ptr;
 	i = 0;
-	
 	while (i < vars->last)
 	{
-		// printf ("%s", str[i]);
-		if (count_strings(str[i], ' ') > 2 || count_strings(str[i], ' ') == 0)
-		{
-			printf ("path not correct\n");
-			exit (1);
-		}
-		if (str[i][0] != '\n')
-			ptr = ft_split(str[i], ' ');
+		ptr = NULL;
+		ptr = ft_split(str[i], ' ');
 		if (ft_strlen(ptr[0]) == 2)
 		{
 			if (ft_strcmp(ptr[0] , "NO") == 0)
@@ -218,7 +253,6 @@ void check_path_is_correct(t_vars *vars, char **str)
 			if (ft_strcmp(ptr[0] , "EA") == 0)
 				vars->path_EA = ft_strdup(ptr[1]);
 		}
-			// printf ("hamza === %s\n", ft_strdup(ptr[0]));
 		if (ft_strlen(ptr[0]) == 1)
 		{
 			if (ft_strcmp(ptr[0] ,"F") == 0)
@@ -226,8 +260,21 @@ void check_path_is_correct(t_vars *vars, char **str)
 			if (ft_strcmp(ptr[0] ,"C") == 0)
 				vars->path_C = ft_strdup(ptr[1]);
 		}
-		if (str[i][0] != '\n')
-			free (ptr);
+		// if (count_str(ptr) > 2 || count_str(ptr) == 1)
+		// {
+		// 	printf ("%d\n", count_str(ptr));
+		// 	printf ("path not correct\n");
+		// 	exit (1);
+		// }
+		// if (str[i][0] != '\n')
+		
+		int j = 0;
+		while (ptr[j])
+		{
+			free (ptr[j]);
+			j++;
+		}
+		free (ptr);
 		i++;
 	}
 	if (vars->path_NO == NULL || vars->path_SO == NULL || vars->path_WE == NULL

@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 10:56:43 by haarab            #+#    #+#             */
-/*   Updated: 2023/11/26 19:42:12 by haarab           ###   ########.fr       */
+/*   Updated: 2023/11/27 21:31:37 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,34 @@ int check_format_av(char *str)
 	return (0);
 }
 
+// int	main(int ac, char **av)
+// {
+// 	t_vars	vars;
+// 	char	**str;
+	
+// 	if (ac != 2)
+// 		return (0);
+// 	if (check_format_av(av[1]) == 0)
+// 		write_error();
+// 	str = ft_map(&vars, av[1]);
+	
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int	main(int ac, char **av)
 {
 	t_vars	vars;
@@ -90,16 +118,23 @@ int	main(int ac, char **av)
 	str = ft_map(&vars, av[1]);
 	check_tab_in_maps(str, &vars);
 	check_type_of_map(&vars, str);
-	check_type_file_is_correct(&vars, str);
 	save_map(&vars, str);
+	check_type_file_is_correct(&vars, str);
 	check_path_is_correct(&vars, str);
+	
+	printf ("%s", vars.path_NO);
+	printf ("%s", vars.path_SO);
+	printf ("%s", vars.path_WE);
+	printf ("%s", vars.path_EA);
+	printf ("%s", vars.path_F);
+	printf ("%s", vars.path_C);
+	int i = 0;
+	while (vars.maps[i])
+	{
+		printf ("%s", vars.maps[i]);
+		i++;
+	}
 	// long_string(&vars, str);
-	// int i = 0;
-	// while (vars.maps[i])
-	// {
-	// 	printf ("%s", vars.maps[i]);
-	// 	i++;
-	// }
-	// while (1);
+	// system("leaks cub3d");
 
 }
