@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 10:58:21 by haarab            #+#    #+#             */
-/*   Updated: 2023/11/26 19:12:44 by haarab           ###   ########.fr       */
+/*   Updated: 2023/12/06 19:37:55 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,17 @@ typedef struct s_vars
 	int 	first_line_map;
 	int		last_line_map;
 	int		last;
-	int		count_string;	
+	int		count_string;
+	int		CR;
+	int		CG;
+	int		CB;
+	int		FR;
+	int		FG;
+	int		FB;
+	
 }	t_vars;
 
-
+int	ft_isdigit(int a);
 void check_path_is_correct(t_vars *vars, char **str);
 void save_map(t_vars *vars, char **str);
 void check_last_path(char **str, t_vars *vars);
@@ -64,4 +71,7 @@ int	ft_atoi(char *str);
 int	check_is_digit(char *str);
 char	*ft_strtrim(char const *s1, char const *set);
 void check_tab_in_maps(char **str, t_vars *vars);
+
+void C_RGB(t_vars *vars);
+void F_RGB(t_vars *vars);
 #endif
