@@ -6,31 +6,35 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:03:31 by hait-sal          #+#    #+#             */
-/*   Updated: 2024/01/12 20:08:05 by haarab           ###   ########.fr       */
+/*   Updated: 2024/01/14 23:34:18 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+
 void    generate3dProjection(t_mlx *mlx)
 {
     float   distanceProjPlane;
-    float   projectedWallHeight;
-    int     wallStripHeight;
+    // float   projectedWallHeight;
+    float     wallStripHeight;
     int     wallTopPixel;
     int     wallBottomPixel;
     float   correctedDistance;
     int     i;
     int     j;
+	float	dist_top;
     float fov = (float)FOV_ANGLE;
     
     i = 0;
+	
     while (i < NUM_RAYS)
     {
+		
         correctedDistance = mlx->rays[i].distance * cos(mlx->rays[i].rayAngle - mlx->player.rotationAngle);
         distanceProjPlane = (W_WIDTH / 2) / tan(fov / 2);
-        projectedWallHeight = (TILE_SIZE / correctedDistance) * distanceProjPlane;
-        wallStripHeight = (int) projectedWallHeight;
+        mlx->rays->projectedWallHeight = (TILE_SIZE / correctedDistance) * distanceProjPlane;
+        wallStripHeight = (int) mlx->rays->projectedWallHeight;
         wallTopPixel = (W_HEIGHT / 2) - (wallStripHeight / 2);
         if (wallTopPixel < 0)
             wallTopPixel = 0;
@@ -46,12 +50,16 @@ void    generate3dProjection(t_mlx *mlx)
         j = wallTopPixel;
         while (j < wallBottomPixel)
         {
+			dist_top = j + wallStripHeight - (W_HEIGHT / 2);
+			mlx->rays->factur = mlx->text->height / wallStripHeight;
+
             if (mlx->rays[i].wasHitVertical)
             {
                 if (mlx->rays[i].rayAngle >= (PI / 2) && mlx->rays[i].rayAngle <= 3 * (PI / 2))//west
                     mlx_put_pixel(mlx->img, i, j, 0xff0000ff);//red
                 else//east
-                    mlx_put_pixel(mlx->img, i, j, 0x00ff00ff);//green
+					e_texture(mlx, i, j, dist_top);
+                    // mlx_put_pixel(mlx->img, i, j, 0x00ff00ff);//green
                 
             }
             else//horizontal hit
@@ -68,6 +76,8 @@ void    generate3dProjection(t_mlx *mlx)
             mlx_put_pixel(mlx->img, i, j, 0x00aaffff);//dk
             j++;
         }
+		// dda(mlx, i, wallTopPixel, wallBottomPixel);
         i++;
     }
+	// printf ("dist_top  =%f   ============    wallStripHeight= %f\n",dist_top, wallStripHeight);
 }

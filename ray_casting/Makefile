@@ -6,7 +6,7 @@
 #    By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/22 11:53:07 by hait-sal          #+#    #+#              #
-#    Updated: 2024/01/09 20:54:39 by haarab           ###   ########.fr        #
+#    Updated: 2024/01/14 21:10:15 by haarab           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,10 +16,10 @@ CC = cc
 
 MY_LIB = "/Users/haarab/MLX42/build/libmlx42.a" -lglfw -L"/Users/haarab/.brew/opt/glfw/lib/"
 
-FLAGS = -Wall -Wextra -Werror #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 
-SRC = main.c map.c player.c key_hook.c draw_line.c ray_casting.c walls.c
+SRC = main.c map.c player.c key_hook.c draw_line.c ray_casting.c walls.c render_text.c
 
 OBJ = ${SRC:.c=.o}
 

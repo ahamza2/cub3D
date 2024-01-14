@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 11:47:37 by hait-sal          #+#    #+#             */
-/*   Updated: 2024/01/12 19:40:25 by haarab           ###   ########.fr       */
+/*   Updated: 2024/01/14 22:02:05 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,16 @@ int main()
     mlx.map.Map = map;
     mlx.mlx = mlx_init(W_WIDTH, W_HEIGHT, "CUBE", true);
     mlx.img = mlx_new_image(mlx.mlx, W_WIDTH, W_HEIGHT);
+	mlx.draw = mlx_new_image(mlx.mlx, W_WIDTH, W_HEIGHT);
+	mlx.text = mlx_load_png("text.png");
     mlx_image_to_window(mlx.mlx, mlx.img, 0, 0);
+    mlx_image_to_window(mlx.mlx, mlx.draw, 0, 0);
     player_init(&mlx, &mlx.player);
     put_map(&mlx);
     put_player(&mlx);
     draw_line(&mlx, 30);
     mlx.rays = malloc(sizeof(t_ray) * NUM_RAYS);
+
     // line_dda(&mlx, 30);
     // draw_line(&mlx, 30);
     // mlx_key_hook(mlx.mlx, &my_keyhook, &mlx);

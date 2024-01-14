@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 11:47:35 by hait-sal          #+#    #+#             */
-/*   Updated: 2024/01/12 19:39:15 by haarab           ###   ########.fr       */
+/*   Updated: 2024/01/14 22:24:48 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,10 @@ typedef struct s_ray
     int     isRayFacingLeft;
     int     isRayFacingRight;
     int     wallHitContent;
+	float	horzHitDistance;
+	float	vertHitDistance;
+	float   projectedWallHeight;
+	float factur;
 } t_ray;
 
 typedef struct  s_mlx
@@ -96,6 +100,8 @@ typedef struct  s_mlx
     t_map       map;
     t_player    player;
     t_ray       *rays;
+	mlx_texture_t	*text;
+	mlx_image_t *draw;
 } t_mlx;
 
 typedef struct s_pos
@@ -127,3 +133,12 @@ t_pos   find_player(char **map);
 
 #endif
 // gcc main.c $MY_LIB -lglfw -L$GLFW -fsanitize=address
+
+
+
+
+int32_t	get_color_from_pos(mlx_texture_t *walli, int y, int x);
+void	n_texture(t_mlx  *mlx, int x, int y, float dist_top);
+void	e_texture(t_mlx  *mlx, int x, int y, float dist_top);
+void	s_texture(t_mlx  *mlx, int x, int y, float dist_top);
+void	w_texture(t_mlx  *mlx, int x, int y, float dist_top);
