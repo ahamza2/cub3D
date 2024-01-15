@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 11:47:37 by hait-sal          #+#    #+#             */
-/*   Updated: 2024/01/14 22:02:05 by haarab           ###   ########.fr       */
+/*   Updated: 2024/01/15 19:58:00 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,24 @@
 int main()
 {
     t_mlx   mlx;
+    
+    // char *map[MAP_WIDTH] = 
+    // {
+	// 	"        1111111111111111111111111",
+	// 	"        1000000000110000000000001",
+	// 	"        1011000001110000000000001",
+	// 	"        100100000000000000N000001",
+	// 	"111111111011000001110000000000001",
+	// 	"100000000011000001110111111111111",
+	// 	"11110111111111011100000010001",
+	// 	"11110111111111011101010010001",
+	// 	"11000000110101011100000010001",
+	// 	"10000000000000001100000010001",
+	// 	"10000000000000001101010010001",
+	// 	"1100000111010101111101111000111",
+	// 	"11110111 1110101 101111010001",
+	// 	"11111111 1111111 111111111111",
+    // };
     
     char *map[MAP_WIDTH] = 
     {
@@ -35,22 +53,18 @@ int main()
     };
     
     mlx.map.Map = map;
-    mlx.mlx = mlx_init(W_WIDTH, W_HEIGHT, "CUBE", true);
-    mlx.img = mlx_new_image(mlx.mlx, W_WIDTH, W_HEIGHT);
-	mlx.draw = mlx_new_image(mlx.mlx, W_WIDTH, W_HEIGHT);
-	mlx.text = mlx_load_png("text.png");
+    mlx.mlx = mlx_init(WIDTH, HEIGHT, "CUBE", true);
+    mlx.img = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
     mlx_image_to_window(mlx.mlx, mlx.img, 0, 0);
-    mlx_image_to_window(mlx.mlx, mlx.draw, 0, 0);
     player_init(&mlx, &mlx.player);
     put_map(&mlx);
     put_player(&mlx);
     draw_line(&mlx, 30);
     mlx.rays = malloc(sizeof(t_ray) * NUM_RAYS);
-
     // line_dda(&mlx, 30);
     // draw_line(&mlx, 30);
-    // mlx_key_hook(mlx.mlx, &my_keyhook, &mlx);
-	mlx_loop_hook(mlx.mlx, &my_keyhook, &mlx);
+    // mlx_key_hook(mlx.mlx, &keyhook, &mlx);
+    mlx_loop_hook(mlx.mlx, &keyhook, &mlx);
     // mlx_hook(mlx.mlx, &my_keyhook, &mlx);
     // mlx_delete_image(mlx.mlx, mlx.img);
     // free(mlx.rays);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: hait-sal <hait-sal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 13:28:20 by hait-sal          #+#    #+#             */
-/*   Updated: 2024/01/14 16:41:04 by haarab           ###   ########.fr       */
+/*   Updated: 2024/01/15 14:04:27 by hait-sal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void    player_init(t_mlx *mlx, t_player *player)
     player->turnDirection = 0; // -1 for left, +1 for right
     player->walkDirection = 0; // -1 for back, +1 for front
     player->rotationAngle = PI / 2;
-    player->moveSpeed = 4;
-    player->rotationSpeed = 4 * (PI / 180);
+    player->moveSpeed = 8;
+    player->rotationSpeed = 8 * (PI / 180);
 }
 
 void    put_player(t_mlx  *mlx)

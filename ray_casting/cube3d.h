@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 11:47:35 by hait-sal          #+#    #+#             */
-/*   Updated: 2024/01/14 22:24:48 by haarab           ###   ########.fr       */
+/*   Updated: 2024/01/15 21:24:31 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,28 @@
 #define PI 3.14159265
 #define TWO_PI 6.28318530
 
-#define TILE_SIZE 64.0
+#define TILE_SIZE 64
 
-#define MAP_WIDTH 20
-#define MAP_HEIGHT 14.0
+#define MAP_WIDTH 21
+#define MAP_HEIGHT 14
 
 #define W_WIDTH MAP_WIDTH * TILE_SIZE
 #define W_HEIGHT MAP_HEIGHT * TILE_SIZE
 
+#define WIDTH 2560
+#define HEIGHT 1440
+
 #define FOV_ANGLE (60 * (PI / 180))
 #define WALL_STRIP_WIDTH 1.0
-#define NUM_RAYS W_WIDTH / WALL_STRIP_WIDTH
+#define NUM_RAYS WIDTH / WALL_STRIP_WIDTH
  
 #define MINIMAP_SCALE 0.2
 
 #define FALSE 0
 #define TRUE 1
+
+#define TEX_WIDTH 64
+#define TEX_HEIGHT 64
 
 typedef struct s_map
 {
@@ -87,21 +93,19 @@ typedef struct s_ray
     int     isRayFacingLeft;
     int     isRayFacingRight;
     int     wallHitContent;
-	float	horzHitDistance;
-	float	vertHitDistance;
-	float   projectedWallHeight;
-	float factur;
 } t_ray;
 
 typedef struct  s_mlx
 {
-    mlx_t       *mlx;
-    mlx_image_t *img;
-    t_map       map;
-    t_player    player;
-    t_ray       *rays;
-	mlx_texture_t	*text;
-	mlx_image_t *draw;
+    mlx_t           *mlx;
+    mlx_image_t     *img;
+    t_map           map;
+    t_player        player;
+    t_ray           *rays;
+    mlx_texture_t   *north;
+    mlx_texture_t   *south;
+    mlx_texture_t   *east;
+    mlx_texture_t   *west;
 } t_mlx;
 
 typedef struct s_pos
@@ -115,7 +119,7 @@ void    put_rect(t_mlx  *mlx);
 void    put_map(t_mlx *mlx);
 void    player_init(t_mlx *mlx, t_player *player);
 void    put_player(t_mlx  *mlx);
-void    my_keyhook(void* param);
+void    keyhook(void* param);
 bool    isWall(float y, float x, char **map);
 void    reset_angle(t_mlx *mlx);
 void    draw_line(t_mlx *mlx, int len);
@@ -127,18 +131,10 @@ void    draw_ray(t_mlx *mlx, int xb, int yb);
 void    renderRays(t_mlx *mlx);
 void    generate3dProjection(t_mlx *mlx);
 t_pos   find_player(char **map);
+void    load_textures(t_mlx *mlx);
 // void    my_keyhook(mlx_key_data_t keydata, void* param);
 // void    draw_line(t_mlx *mlx, int len);
 // void    line_dda(t_mlx *mlx, int steps);
 
 #endif
 // gcc main.c $MY_LIB -lglfw -L$GLFW -fsanitize=address
-
-
-
-
-int32_t	get_color_from_pos(mlx_texture_t *walli, int y, int x);
-void	n_texture(t_mlx  *mlx, int x, int y, float dist_top);
-void	e_texture(t_mlx  *mlx, int x, int y, float dist_top);
-void	s_texture(t_mlx  *mlx, int x, int y, float dist_top);
-void	w_texture(t_mlx  *mlx, int x, int y, float dist_top);

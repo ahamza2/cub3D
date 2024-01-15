@@ -6,14 +6,11 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 12:09:59 by hait-sal          #+#    #+#             */
-/*   Updated: 2024/01/14 19:51:00 by haarab           ###   ########.fr       */
+/*   Updated: 2024/01/15 20:14:06 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-
-
-
 
 void    castAllRays(t_mlx *mlx)
 {
@@ -195,22 +192,22 @@ void    castRay(t_mlx *mlx, float rayAngle, int i)
     }
 
     //Calculate both horizontal and vertical distances and choose the smallest value
-    // float horzHitDistance;
+    float horzHitDistance;
     if (foundHorzWallHit)
-        mlx->rays->horzHitDistance = distanceBetweenPoints(mlx->player.x, mlx->player.y, horzWallHitX, horzWallHitY);
+        horzHitDistance = distanceBetweenPoints(mlx->player.x, mlx->player.y, horzWallHitX, horzWallHitY);
     else
-        mlx->rays->horzHitDistance = INT_MAX;
-    // float vertHitDistance;
+        horzHitDistance = INT_MAX;
+    float vertHitDistance;
     if (foundVertWallHit)
-        mlx->rays->vertHitDistance = distanceBetweenPoints(mlx->player.x, mlx->player.y, vertWallHitX, vertWallHitY);
+        vertHitDistance = distanceBetweenPoints(mlx->player.x, mlx->player.y, vertWallHitX, vertWallHitY);
     else
-        mlx->rays->vertHitDistance = INT_MAX;
+        vertHitDistance = INT_MAX;
     
     //only store the smallest of the distances
     
-    if (mlx->rays->vertHitDistance < mlx->rays->horzHitDistance)
+    if (vertHitDistance < horzHitDistance)
     {
-        mlx->rays[i].distance = mlx->rays->vertHitDistance;
+        mlx->rays[i].distance = vertHitDistance;
         mlx->rays[i].wallHitX = vertWallHitX;
         mlx->rays[i].wallHitY = vertWallHitY;
         mlx->rays[i].wallHitContent = vertWallContent;
@@ -218,7 +215,7 @@ void    castRay(t_mlx *mlx, float rayAngle, int i)
     }
     else
     {
-        mlx->rays[i].distance = mlx->rays->horzHitDistance;
+        mlx->rays[i].distance = horzHitDistance;
         mlx->rays[i].wallHitX = horzWallHitX;
         mlx->rays[i].wallHitY = horzWallHitY;
         mlx->rays[i].wallHitContent = horzWallContent;
