@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 10:58:21 by haarab            #+#    #+#             */
-/*   Updated: 2023/12/06 19:37:55 by haarab           ###   ########.fr       */
+/*   Updated: 2024/01/21 04:10:05 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
-# include <mlx.h>
+# include "../../MLX42/include/MLX42/MLX42.h"
 # include "./get_next_line/get_next_line.h"
 
 
@@ -49,6 +49,7 @@ typedef struct s_vars
 	int		FR;
 	int		FG;
 	int		FB;
+	int 	size_map;
 	
 }	t_vars;
 

@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:53:57 by haarab            #+#    #+#             */
-/*   Updated: 2023/12/06 20:56:14 by haarab           ###   ########.fr       */
+/*   Updated: 2024/01/21 10:08:12 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void check_persone(char **str , t_vars *vars, int first)
 		i = 0;
 		while (str[first][i] != '\n' && str[first][i])
 		{
-			if (str[first][i] == 'N')
+			if (str[first][i] == 'N' || str[first][i] == 'S' || str[first][i] == 'E' || str[first][i] == 'W')
 			{
 				// printf ("%d == %d\n", first , i);
 				j++;
@@ -118,33 +118,157 @@ void check_map_is_correct(char **str, t_vars *vars, int first)
 	check_path(str , vars, first);
 }
 
-void save_map(t_vars *vars, char **str)
+
+int	check_first_stringmap(char **str, int first, t_vars *vars)
 {
-	int j = 0;
-	line_of_map(vars, str);
-	int first = vars->last;
-	// printf ("first ==== %d\n", first);
-	check_map_is_correct(str, vars, first);
+	int i;
 	while (first < vars->lines_map)
 	{
-		if (str[first][0] != '\n')
-			j++;
-		first++;
-	}
-	vars->maps = malloc((j) * sizeof(char *) + 1);
-	first = vars->last;
-	j = 0;
-	while (first < vars->lines_map)
-	{
-		if (str[first][0] != '\n')
+		i = 0;
+		while (str[first][i] != '\n')
 		{
-			vars->maps[j] = ft_strdup(str[first]);
-			j++;
+			if (str[first][i] == '1')
+			{
+				// printf ("fir ==== %d\n", first);
+				return (first);
+			}
+			i++;
 		}
 		first++;
 	}
+	return (first);
 }
 
+int	check_last_stringmap(char **str, int first, t_vars *vars)
+{
+	int i;
+	int last = vars->lines_map - 1;
+	while (first < last)
+	{
+		i = 0;
+		while (str[last][i] != '\n' && str[last][i] != '\0')
+		{
+			if (str[last][i] == '1')
+			{
+				// printf ("last ==== %s\n", str[last]);
+				// printf ("flast ==== %d\n", last);
+				return (last);
+			}
+			i++;
+		}
+		last--;
+	}
+	return (last);
+}
+
+int	ft_strlene( char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\n')
+		i++;
+	return (i);
+}
+
+int ft_maxline(char **str, int i, int k)
+{
+	int len = ft_strlene(str[i]);
+	i = i + 1;
+	while (i < k)
+	{
+		if (len < ft_strlene(str[i]))
+		{
+			len = ft_strlene(str[i]);
+		}
+		// printf ("lene ==== %d\n", len);
+		i++;
+	}
+	return (len);
+}
+
+// void	ft_strcpy(t_vars *vars,int j, char *src)
+// {
+// 	size_t	i;
+	
+// 	i = 0;
+// 	while (src[i] != '\n')
+// 	{
+// 		vars->maps[j][i] = src[i];
+// 		i++;
+// 	}
+// 	vars->maps[j][i] = '\n';
+// }
+
+// void	fill_map(char *dst, char *src)
+
+void save_map(t_vars *vars, char **str)
+{
+	int j = 0;
+	int k = 0;
+	
+	line_of_map(vars, str);
+	
+	int first = vars->last;
+	check_map_is_correct(str, vars, first);
+	int i = check_first_stringmap(str, first, vars);
+	k = check_last_stringmap(str, i, vars) + 1;
+	vars->size_map = ft_maxline(str, i , k) - 1;
+	
+	int d = k - i;
+	printf ("%d\n", d);
+	vars->maps = malloc(sizeof(char *) * (d + 1));
+	// printf("%lu\n", sizeof(vars->maps));
+	j = 0;
+	int b = i;
+	while (j < d)
+	{
+		vars->maps[j] = malloc(sizeof(char) * (vars->size_map) + 1);
+		// printf("%lu\n", sizeof(vars->maps[j]));
+		int c = 0;
+		while (c < vars->size_map)
+		{
+			vars->maps[j][c] = ' ';
+			c++;
+		}
+		printf ("cccc iiiiiii ====== %d ====== %d \n", c, i);
+		// vars->maps[j][c] = '\n';
+		vars->maps[j][c] = '\0';
+		
+		i++;
+		j++;
+	}
+	vars->maps[j] = NULL;
+	printf ("iiiiiii 111111 ====== %d\n", i);
+	printf ("jjjjjjj 111111 ====== %d\n", j);
+	j = 0;
+	while (j < d)
+	{
+		int c = 0;
+		while (c < vars->size_map)
+		{
+			if (c < ft_strlene(str[b]) && str[b][c] != '\n')
+			{
+				vars->maps[j][c] = str[b][c];
+			}
+			else
+				vars->maps[j][c] = ' ';
+			c++;
+		}
+		printf ("cccc iiiiiii ====== %d ====== %d \n", c, b);
+		vars->maps[j][c] = '\0';
+		// printf ("%d-->", i);
+		// i++;0
+		b++;
+		j++;
+	}
+	printf ("bbbbbbb 222222 ====== %d\n", b);
+	printf ("jjjjjjj 222222 ====== %d\n", j);
+
+	
+	// vars->maps[j] = NULL;
+	// // exit (1);
+}
 
 // size_t	ft_f_word(char const *s, char c)
 // {
@@ -233,11 +357,11 @@ void check_type_of_map(t_vars *vars, char **str)
 		if (vars->NO != NULL && vars->SO != NULL && vars->WE != NULL
 			&& vars->EA != NULL && vars->F != NULL && vars->C != NULL)
 		{
-			free (ptr);
+			// free (ptr);
 			vars->last = i + 1;
 			return ;
 		}
-		free (ptr);
+		// free (ptr);
 		i++;
 	}
 	printf ("error path\n");
@@ -317,14 +441,6 @@ void check_path_is_correct(t_vars *vars, __unused char **str)
 		printf ("problime path\n");
 		exit (1);
 	}
-	// printf ("%s", vars->path_NO);
-	// printf ("%s", vars->path_SO);
-	// printf ("%s", vars->path_WE);
-	// printf ("%s", vars->path_EA);
-	// // printf ("problime \n");
-	// printf ("%s", vars->path_F);
-	// printf ("%s", vars->path_C);
-	// while (1);
 }
 
 void check_tab_in_maps(char **str, __unused t_vars *vars)
@@ -399,10 +515,10 @@ void C_RGB(t_vars *vars)
 			printf ("number not correct\n");
 			exit (1);
 		}
-		free (ptr[i]);
+		// free (ptr[i]);
 		i++;
 	}
-	free (ptr);
+	// free (ptr);
 	vars->CR = ft_atoi(ptr[0]);
 	vars->CG = ft_atoi(ptr[1]);
 	vars->CB = ft_atoi(ptr[2]);
@@ -442,10 +558,10 @@ void F_RGB(t_vars *vars)
 			printf ("number not correct\n");
 			exit (1);
 		}
-		free (ptr[i]);
+		// free (ptr[i]);
 		i++;
 	}
-	free (ptr);
+	// free (ptr);
 	vars->FR = ft_atoi(ptr[0]);
 	vars->FG = ft_atoi(ptr[1]);
 	vars->FB = ft_atoi(ptr[2]);

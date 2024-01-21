@@ -6,7 +6,7 @@
 /*   By: haarab <haarab@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 10:56:43 by haarab            #+#    #+#             */
-/*   Updated: 2023/12/06 20:47:24 by haarab           ###   ########.fr       */
+/*   Updated: 2024/01/21 10:08:08 by haarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,36 @@ int ft_get(char *str)
 	return (i);
 }
 
-char **ft_map(t_vars *vars, char *av)
+char **ft_map( __unused t_vars *vars, char *av)
 {
 	int	fd;
+	char **str;
 	int	i;
 	
 	i = 0;
+	int len = ft_get(av);
 	fd = open(av, O_RDONLY);
 	if (fd < 0)
 		exit(1);
-	vars->move = malloc((ft_get(av)) * sizeof(char *) + 1);
-	if (!vars->move)
+	str = malloc((len + 1) * sizeof(char *) );
+	if (!str)
 		return (NULL);
-	while (1)
+	while (i < len)
 	{
-		vars->move[i] = get_next_line(fd);
-		// vars->move[i] = ft_strtrim(vars->move[i] , " \t");
-		if (vars->move[i] == NULL && i == 0)
+		// printf ("hamza ===== %d\n", i);
+		// if (i >= len)
+       	// 	break;
+		str[i] = get_next_line(fd);
+		// str[i] = ft_strtrim(str[i] , " \t");
+		if (str[i] == NULL && i == 0)
 			write_error();
-		if (vars->move[i] == NULL)
+		if (str[i] == NULL)
 			break ;
 		i++;
 	}
-	vars->move[i] = 0;
+	str[i] = NULL;
 	close (fd);
-	return (vars->move);
+	return (str);
 }
 
 int check_format_av(char *str)
@@ -78,19 +83,6 @@ int check_format_av(char *str)
 	return (0);
 }
 
-// int	main(int ac, char **av)
-// {
-// 	t_vars	vars;
-// 	char	**str;
-	
-// 	if (ac != 2)
-// 		return (0);
-// 	if (check_format_av(av[1]) == 0)
-// 		write_error();
-// 	str = ft_map(&vars, av[1]);
-	
-// }
-
 
 
 int	main(int ac, char **av)
@@ -100,17 +92,20 @@ int	main(int ac, char **av)
 	
 	if (ac != 2)
 		return (0);
+
+	vars.maps = NULL;
 	if (check_format_av(av[1]) == 0)
 		write_error();
 	str = ft_map(&vars, av[1]);
 	check_tab_in_maps(str, &vars);
 	check_type_of_map(&vars, str);
 	save_map(&vars, str);
+
 	check_type_file_is_correct(&vars, str);
 	check_path_is_correct(&vars, str);
 	C_RGB(&vars);
 	F_RGB(&vars);
-	while (1);
+	// while (1);
 	
 	// printf ("%s", vars.path_NO);
 	// printf ("%s", vars.path_SO);
@@ -118,20 +113,22 @@ int	main(int ac, char **av)
 	// printf ("%s", vars.path_EA);
 	// printf ("%s", vars.path_F);
 	// printf ("%s", vars.path_C);
-	// int i = 0;
-	// while (vars.maps[i])
-	// {
-	// 	printf ("%s", vars.maps[i]);
-	// 	i++;
-	// }
+	int i = 0;
+	
+	while (vars.maps[i])
+	{
+		printf("%s\n", vars.maps[i]);
+		i++;
+	}
+	return (0);
 	// long_string(&vars, str);
 	// system("leaks cub3d");
 
-	printf ("%d\n", vars.CR);
-	printf ("%d\n", vars.CG);
-	printf ("%d\n", vars.CB);
-	printf ("%d\n", vars.FR);
-	printf ("%d\n", vars.FG);
-	printf ("%d\n", vars.FB);
+	// printf ("%d\n", vars.CR);
+	// printf ("%d\n", vars.CG);
+	// printf ("%d\n", vars.CB);
+	// printf ("%d\n", vars.FR);
+	// printf ("%d\n", vars.FG);
+	// printf ("%d\n", vars.FB);
 
 }
